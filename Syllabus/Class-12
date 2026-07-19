@@ -1,0 +1,107 @@
+
+
+---------prvisioners--------
+
+1. file-------
+ Copies files or directories from your local machine to the target remote resource.
+ It typically requires a connection block to define how to access the server (e.g., via SSH or WinRM)
+ example--
+ txt.html is in your local machine
+ copy txt.html to an already existing vm
+
+To use the file provisioner, you need three main blocks:
+create the ssh keys first using ssh.keygen
+
+----The resource (your VM)
+----The file provisioner
+----The connection block (so Terraform knows how to connect to the VM)
+
+
+
+
+2. remote-exec------
+ Executes scripts or commands directly on the newly provisioned remote resource. 
+ It typically requires a connection block to define how to access the server (e.g., via SSH or WinRM)
+ example--
+ execute the "sudo apt-get update -y" in the vm
+ install a webserver in the vm
+
+
+3. local-exec
+The local-exec provisioner executes a command on the machine where Terraform is running, not inside the VM.
+
+This is useful for tasks like:
+
+Writing the VM's IP to a file
+Logging resource details
+Calling another script or CLI tool
+Sending a notification
+
+
+
+
+
+#--------resource block---------------
+resource "google_compute_instance" "vm1" {
+
+  name         = "vm1"
+  machine_type = "e2-micro"
+  zone         = "us-central1-a"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-12"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {}
+  }
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+#-----------connection block----------------
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("~/.ssh/id_rsa")
+      host        = self.network_interface[0].access_config[0].nat_ip
+    }
+  }
+
+
+#-----------provisioner block - file----------------
+#copy install.sh file to vm
+  provisioner "file" {
+
+    source      = "install.sh"
+    destination = "/tmp/install.sh"
+  }
+
+
+#-----------provisioner block - remote -exec----------------
+#execute below commands
+
+  provisioner "remote-exec" {
+
+    inline = [
+      "echo 'Hello from Terraform'",
+      "hostname",
+      "uptime",
+      "pwd"
+    ]
+  }
+
+
+#-----------provisioner block - local-exec----------------
+#Print a message after VM creation
+#Save the VM's external IP to a file
+provisioner "local-exec" {
+    interpreter = ["PowerShell", "-Command"]
+
+    command = "Write-Host 'VM Name:' '${self.name}'"
+    command = "echo ${self.name},${self.zone},${self.machine_type} >> vm_details.txt"
+  }

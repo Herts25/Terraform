@@ -1,0 +1,54 @@
+
+
+
+
+-------Theory--------
+
+----------terraform state - complete
+*state lock - when two engineers click on apply at same time it will help whom so ever is 
+ clicked apply first, while applying statefile will be locked untill its execution and
+ shows the locked/error message to 2nd engineer
+*terraform refresh - command is used to see the cuurent state
+*terraform state list - commands gives the existing resouces in current state
+*terraform state show google_compute_instance.vm2 will give the details of vm2
+
+
+
+-----------terraform backend - complete
+*we can give the backend bucket to store the state file 
+*we can export alredy existing statefile in local to bucket by using command
+ terraform init -migrate-state 
+
+
+-----------terraform drift -completed 
+*resource created through terraform [e2-micro]
+*changes made through console [e2-small]
+*when we click on terraform plan -will override e2-small => e2-micro again
+*If we change in our terrform code e2-micro => e2-small
+ then terraform plan will show no changes
+
+
+-------------terraform import -completed
+*resouce created through console
+*we can import that resouce to terraform statefile to manage
+*we have to write the code for that resouce first and then execute the below command
+
+*terraform import google_compute_instance.vm2 projects/<PROJECT_ID>/zones/<ZONE>/instances/vm2
+
+*terraform import google_compute_instance.vm2 projects/my-second-project-501115/zones/us-central1-a/instances/vm2
+
+
+
+---------------terraform taint or -replace
+*terraform taint is used to mark a resource as damaged or needing replacement in the Terraform state.
+*When a resource is tainted, Terraform does not immediately delete or recreate it. Instead, during the next terraform plan or terraform apply, Terraform plans to destroy and recreate that resource.
+
+example--------
+  command - terraform taint google_compute_instance.vm2
+  output - Resource instance google_compute_instance.vm2 has been marked as tainted.
+
+  command - terraform untaint google_compute_instance.vm2
+  output - Resource instance google_compute_instance.vm2 has been successfully untainted.
+
+
+* terraform plan/apply  will destroy and re-create the vm2

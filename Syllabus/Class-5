@@ -1,0 +1,8 @@
+variable types
+ 1. string - finished (project number, region, zone)
+ 2. number -finished (priority)
+ 3. boolian -finished (startup-script)
+ 4. list of strings - finished (ports, tags)
+ 5. map of strings - finished (machine types for environments)
+ 6. object - 
+ 7. list of objects - 

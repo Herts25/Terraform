@@ -1,0 +1,8 @@
+project_id = "my-second-project-501115"
+region = "us-central1"
+machine_type = "e2-micro"
+zone = "us-central1-a"
+vm_name = "vm1"
+ip_cidr_range = "10.0.0.0/24"
+local_vpc_name = "vpc-hsbc"
+local_subnet_name = "subnet-hsbc"

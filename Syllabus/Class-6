@@ -1,0 +1,58 @@
+Variable types -2 
+5. objects - finished  
+
+
+variable "vm_configuration" {
+  type = object({
+    name = string
+    region = string
+    zone = string
+    tags = list(string)
+    https_priority = number
+    image = map(string)
+
+  })
+
+  default = {
+    name = "object-vm"
+    region = "us-central1"
+    zone = "us-central1-a"
+    tags = ["tag1" ,"tag2"]
+    https_priority = 500
+    image = {
+      "dev" = "n2-standard-2"
+      "qa" = "n2-standard-4"
+      "prod" = "n2-standard-8"
+    }
+  }
+
+}
+
+  variable "object_environment"{
+   type = string
+   description = "this is very specific to environment"
+   default = "prod"
+
+  }
+
+
+
+6. list of objects - finished 
+
+variable "vm_list" {
+  type = list(object({
+    name         = string
+    machine_type = string
+    zone         = string
+    tags         = list(string)
+  }))
+
+default = [
+      name         = "listvm1"
+      machine_type = "e2-medium"
+      zone         = "us-central1-a"
+      tags         = ["tag3", "tag4"]
+]
+
+
+}

@@ -1,0 +1,4 @@
+provider block
+resource block
+terraform/settings block(terraform version)
+implicit dependency

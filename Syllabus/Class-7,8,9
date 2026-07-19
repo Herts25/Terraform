@@ -1,0 +1,68 @@
+#Meta Arguments
+
+
+
+1-----Providers -Finished (Second Project #Alias)
+
+2-----Count - Finished (Identical list of Vms, List of Subnet, List of VPCs)
+
+3-----For_each
+     1. for_each maps - Finished(VMs and Subnets with map(object),
+      combination of diffrent variable types)
+      for_each = var.Vms
+      name = each.key
+
+     2. for_each set of strings - Finished(List of VMs, List of buckets, simple way)
+     for_each = toset(var.vm_names)
+     name=each.key/value(anything will be allowed here)
+
+
+
+4-----Depends _On [explicit dependency] -  Finished 
+
+it is to change the order of resource creation(changing the terraform default behaviour)
+
+Please refer to Meta_Arguement-Depends_On folder
+un comment the depends_on arguement in VM creation block to fix the issue
+
+
+
+
+5-----Life_Cycle
+
+
+------------default behaviour------------
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
+-/+ destroy and then create replacement 
+
+lifecycle {
+    ignore_changes = [ metadata ]
+    create_before_destroy = false
+  }
+
+
+------------------changed the behaviour-------------
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
++/- create replacement and then destroy
+
+ lifecycle {
+    ignore_changes = [ metadata ]
+    create_before_destroy = true
+  }
+
+
+
+
+
+
+-----Importance in usage in real time-----
+
+provider - *
+count - ****
+for_each - *****
+depends_on - ***** (used mostly in modules)
+lifecycle - ***

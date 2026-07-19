@@ -1,0 +1,20 @@
+terraform behaviour
+ 1. creation
+ 2. update in place
+ 3. update in place(start & stop)
+ 4. destroy & create
+
+
+
+
+variable block
+ 1. default - finished
+ 2. cli - finished
+ 3. environmental variables - finished
+ 4. variable.tf - finished
+ 5. terraform.tfvars - finished
+ 6. dev.tfvars - finished
+
+
+
+ 
